@@ -66,13 +66,13 @@ No arguments = just drop all tables in the 3 standard DBs so we don\'t need the 
   end
 end
 
-if $ENVS == []
-  $ENVS = ['development', 'production', 'test']
-end
-
 #exit 0
 
 $DB_CONFIG = YAML.load(ERB.new(File.open(File.join(RAILS_ROOT, "config", "database.yml")) {|f| f.read}).result(binding))
+
+if $ENVS == []
+  $ENVS = $DB_CONFIG.keys
+end
 
 if $CREATE && !$OUTPUT_FILE
   if $DB_PASS
